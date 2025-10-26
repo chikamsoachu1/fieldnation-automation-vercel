@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FieldNation Automation — Automation for freelance IT techs</title>
+  <link rel="stylesheet" href="/styles.css">
+  <meta name="description" content="Never miss FieldNation jobs. FieldNation Automation responds to available jobs instantly so freelance IT technicians capture more opportunities." />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="logo">FieldNation Automation</h1>
+      <nav class="nav">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h2>Never miss a FieldNation job again</h2>
+          <p class="lead">Automate responses to available FieldNation tasks so you capture more work, save time, and increase your earnings — all for $35 / month.</p>
+          <ul class="hero-bullets">
+            <li>Auto-respond to matching jobs instantly</li>
+            <li>Work filters and safe rejection rules</li>
+            <li>Activity logs and payout impact reporting</li>
+          </ul>
+          <div class="cta-row">
+            <a class="btn primary" id="start-trial" href="#pricing">Start 7‑day trial</a>
+            <a class="btn ghost" href="#features">Learn more</a>
+          </div>
+          <p class="guarantee">30‑day Earnings Increase Guarantee — or your next month is free. See terms.</p>
+        </div>
+        <div class="hero-media">
+          <div class="device-mock">
+            <img src="/screenshot-placeholder.png" alt="Product screenshot (placeholder)" style="max-width:100%;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="container features">
+      <h3>How it works</h3>
+      <div class="feature-grid">
+        <div class="feature">
+          <h4>Smart matching</h4>
+          <p>Set your skill filters, location range and availability. The tool automatically responds to matching jobs within seconds.</p>
+        </div>
+        <div class="feature">
+          <h4>Safe automation</h4>
+          <p>Custom rejection rules prevent unwanted acceptances. Review jobs before final confirmation if you prefer a manual step.</p>
+        </div>
+        <div class="feature">
+          <h4>Analytics & logs</h4>
+          <p>See which automated responses converted to accepted jobs and track estimated earnings impact over time.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="container pricing">
+      <h3>Pricing</h3>
+      <div class="price-card">
+        <div class="price">$35<span class="per">/month</span></div>
+        <p>Includes full automation, updates, email support, detailed activity logs, and our Earnings Increase Guarantee.</p>
+        <ul>
+          <li>7-day free trial</li>
+          <li>Cancel any time</li>
+          <li>Secure payments (Stripe)</li>
+        </ul>
+        <a class="btn primary" href="#" id="checkout-btn">Start trial</a>
+      </div>
+      <p class="note">Need team or multi-account pricing? Contact us.</p>
+    </section>
+
+    <section id="faq" class="container faq">
+      <h3>FAQ</h3>
+      <details>
+        <summary>Will this break FieldNation account rules?</summary>
+        <p>We strongly recommend reviewing FieldNation's Terms of Service before using any automation. Do not share login information with third parties unless you accept the risks. See additional notes in our Terms.</p>
+      </details>
+      <details>
+        <summary>How does the guarantee work?</summary>
+        <p>We compare your FieldNation earnings before and after using the tool per the guarantee terms and refund if conditions are met. See full terms in Terms & Refund.</p>
+      </details>
+      <details>
+        <summary>How do payments work?</summary>
+        <p>Monthly subscription billed via Stripe. Cancel any time from your account dashboard.</p>
+      </details>
+    </section>
+
+    <section id="contact" class="container contact">
+      <h3>Get started / Contact</h3>
+      <p>Email: <a href="mailto:support@yourdomain.example">support@yourdomain.example</a></p>
+      <form id="signup" class="signup-form" onsubmit="return false;">
+        <label>
+          Email
+          <input type="email" id="email" required placeholder="you@example.com" />
+        </label>
+        <label>
+          FieldNation username (optional)
+          <input type="text" id="fn_username" placeholder="optional" />
+        </label>
+        <button class="btn primary" id="start-trial-form">Start free trial</button>
+        <p class="muted">We never store passwords. We recommend token-based or local-agent setups for account access.</p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 FieldNation Automation. <a href="/privacy.md">Privacy</a> · <a href="/terms.md">Terms & Refund</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // Minimal frontend behavior for demo checkout endpoint
+    document.getElementById('checkout-btn').addEventListener('click', async function (e) {
+      e.preventDefault();
+      try {
+        const res = await fetch('/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ priceId: (window.PRICE_ID || 'price_35_month') })
+        });
+        const data = await res.json();
+        if (data.sessionUrl) {
+          window.location = data.sessionUrl;
+        } else if (data.sessionId) {
+          // optionally open Stripe Checkout via sessionId using stripe.js if implemented
+          alert('Checkout created — open session URL from server logs or sessionUrl.');
+          console.error(data);
+        } else {
+          alert('Unable to create checkout session (see console).');
+          console.error(data);
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Checkout failed, check console.');
+      }
+    });
+
+    document.getElementById('start-trial-form').addEventListener('click', async function () {
+      document.getElementById('checkout-btn').click();
+    });
+  </script>
+</body>
+</html>
